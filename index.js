@@ -2,57 +2,60 @@
 var shell = require("shelljs");
 var fs = require("fs");
 var path = require('path');
+var debug = false;
 
 
 // next build
-shell.exec("npm run build");
-shell.exec("npm run export");
+if (!debug) shell.exec("npm run build");
+if (!debug) shell.exec("npm run export");
 
 
-// rename "/out/" to "/www/"
-fs.rename('out', 'www', (err) => {
-    if (err) {
-        console.log('Error rename: ' + err);
-        return;
-    }
-    console.log('rename "/out/" -> "/www/"');
-
-
-    // rename "/www/_next/" to "/www/next/"
-    fs.rename('www/_next', 'www/next', (err) => {
-        if (err) {
-            console.log('Error rename: ' + err);
-            return;
+const getAllFiles = function(dirPath, arrayOfFiles) {
+    files = fs.readdirSync(dirPath);
+    arrayOfFiles = arrayOfFiles || [];
+    files.forEach(function(file) {
+        if (fs.statSync(dirPath + '/' + file).isDirectory() && file != 'next') {
+            arrayOfFiles = getAllFiles(dirPath + '/' + file, arrayOfFiles);
+        } else {
+            if (path.extname(file) == '.html') arrayOfFiles.push(path.join(dirPath, '/', file));
         }
-        console.log('rename "/www/_next/" -> "/www/next/"');
+    });
+    return arrayOfFiles;
+}
 
 
-        // rename "_next" to "next"
-        fs.readdir('www', (err, files) => {
-            if (err) {
-                console.log('Error readdir: ' + err);
-                return;
-            }
-            files.forEach(file => {
-                if (path.extname(file) == '.html') {
-                    fs.readFile("www/" + file, function(err, buf) {
-                        if (err) {
-                            console.log('Error readFile: ' + err);
-                            return;
-                        }
-                        var html = buf.toString();
-                        var newValue = html.replace(/\/_next\//gim, '/next/');
-                        fs.writeFile("www/" + file, newValue, 'utf-8', function (err) {
-                            console.log('write file "' + file + '" complete');
-                        });
-                    });
-                }
-            });
-        });
+async function www () {
 
+    // Delete dir "www"
+    if (!debug) if (fs.existsSync('www')) await fs.rmSync('www', { force: true });
+    if (!debug) console.log('Delete dir "www"');
+
+    // Rename dir "/out/" to "/www/"
+    if (fs.existsSync('out')) await fs.renameSync('out', 'www');
+    console.log('Rename dir "/out/" to "/www/"');
+
+    // Rename "/www/_next/" to "/www/next/"
+    if (fs.existsSync('www/_next')) await fs.renameSync('www/_next', 'www/next');
+    console.log('Rename "/www/_next/" to "/www/next/"');
+
+    // Change the path "_next" to "next" in files recursively
+    const htmlFile = getAllFiles('www');
+    let htmlContent, buffer, newValue;
+    htmlFile.forEach(async file => {
+        // old detect '.html'
+        if (path.extname(file) == '.html') {
+            buffer = await fs.readFileSync(file);
+            htmlContent = buffer.toString();
+            newValue = htmlContent.replace(/\/_next\//gim, '/next/');
+            await fs.writeFileSync(file, newValue, { encoding: 'utf-8' });
+            console.log('Rename "' + file + '"');
+        }
     });
 
-});
+}
+
+www();
+
 
 
 
