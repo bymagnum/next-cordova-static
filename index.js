@@ -27,7 +27,7 @@ const getAllFiles = function(dirPath, arrayOfFiles) {
 async function www () {
 
     // Delete dir "www"
-    if (!debug) if (fs.existsSync('www')) await fs.rmSync('www', { force: true });
+    if (!debug) if (fs.existsSync('www')) await fs.rmSync('www', { recursive: true, force: true });
     if (!debug) console.log('Delete dir "www"');
 
     // Rename dir "/out/" to "/www/"
