@@ -1,3 +1,4 @@
+#! /usr/bin/env node
 var shell = require("shelljs");
 var fs = require("fs");
 var path = require('path');
