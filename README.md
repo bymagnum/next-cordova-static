@@ -28,6 +28,8 @@ Add to your package.json (root nextjs) command:
 
 Versions:
 
+1.3.4 - Minor fixes
+
 1.3.2 - add recursive
 
 1.1.0 - static build

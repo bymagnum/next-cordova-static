@@ -1,6 +1,6 @@
 {
   "name": "next-cordova-static",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "Export Nextjs projects for Cordova",
   "main": "index.js",
   "scripts": {
@@ -18,9 +18,6 @@
     "cordova",
     "export"
   ],
-  "bin": {
-    "next-cordova-static": "index.js"
-  },
   "author": "bymagnum",
   "license": "ISC",
   "bugs": {
