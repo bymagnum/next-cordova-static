@@ -14,10 +14,14 @@ const getAllFiles = function(dirPath, arrayOfFiles) {
     files = fs.readdirSync(dirPath);
     arrayOfFiles = arrayOfFiles || [];
     files.forEach(function(file) {
-        if (fs.statSync(dirPath + '/' + file).isDirectory() && file != 'next') {
+        if (fs.statSync(dirPath + '/' + file).isDirectory()) {
             arrayOfFiles = getAllFiles(dirPath + '/' + file, arrayOfFiles);
         } else {
-            if (path.extname(file) == '.html') arrayOfFiles.push(path.join(dirPath, '/', file));
+            if (
+                path.extname(file) == '.html' || path.extname(file) == '.css'
+            ) {
+                arrayOfFiles.push(path.join(dirPath, '/', file));
+            }
         }
     });
     return arrayOfFiles;
@@ -39,14 +43,17 @@ async function www () {
     console.log('Rename "/www/_next/" to "/www/next/"');
 
     // Change the path "_next" to "next" in files recursively
-    const htmlFile = getAllFiles('www');
-    let htmlContent, buffer, newValue;
-    htmlFile.forEach(async file => {
-        // old detect '.html'
-        if (path.extname(file) == '.html') {
+    const Files = getAllFiles('www');
+    let content, buffer, newValue;
+    Files.forEach(async file => {
+        // old detect '.html' or '.css'
+        if (
+            path.extname(file) == '.html' || 
+            path.extname(file) == '.css'
+        ) {
             buffer = await fs.readFileSync(file);
-            htmlContent = buffer.toString();
-            newValue = htmlContent.replace(/\/_next\//gim, '/next/');
+            content = buffer.toString();
+            newValue = content.replace(/\/_next\//gim, '/next/');
             await fs.writeFileSync(file, newValue, { encoding: 'utf-8' });
             console.log('Rename "' + file + '"');
         }
