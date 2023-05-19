@@ -6,8 +6,8 @@ var debug = false;
 
 
 // next build
-if (!debug) shell.exec("npm run build");
-if (!debug) shell.exec("npm run export");
+if (!debug) shell.exec("npx next build");
+if (!debug) shell.exec("npx next export");
 
 
 const getAllFiles = function(dirPath, arrayOfFiles) {
