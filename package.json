@@ -1,6 +1,6 @@
 {
   "name": "next-cordova-static",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Export Nextjs projects for Cordova",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
