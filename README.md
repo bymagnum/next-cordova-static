@@ -1,6 +1,9 @@
 # NextJs Cordova export
 
-Use this package if you want to use nextjs in Cordova 
+Use this package if you want to use nextjs in Cordova
+
+You can help the project:
+USDT TRC20: THyUxnKfShQ9YkXTEUwNvYZiWgvrR9PCM1
 
 # Steps required
 
