@@ -1,4 +1,4 @@
-# Release Notes
+# Change Log
 
 ### 1.4.1
 * Add npx
