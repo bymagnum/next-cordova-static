@@ -3,7 +3,7 @@
 Use this package if you want to use nextjs in Cordova
 
 You can help the project:
-USDT TRC20: THyUxnKfShQ9YkXTEUwNvYZiWgvrR9PCM1
+_USDT TRC20: TRTLj2wMtMtGRjGq96qxozf9MXK577PNTD_
 
 # Steps required
 
