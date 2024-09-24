@@ -2,7 +2,7 @@
 
 Use this package if you want to use nextjs in Cordova
 
-_You can help the project with the amount in Telegram:_ @bymagnum
+_You can help the project with the amount in Telegram: @bymagnum_
 
 # Steps required
 
